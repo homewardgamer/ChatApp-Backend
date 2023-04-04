@@ -3,6 +3,9 @@ const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const { notFound, errorHandler } = require("./middlewares/errorMiddleware");
 
+// routers
+const authRouter = require("./routers/authRouter");
+
 // Update env vars from `.env` file
 dotenv.config();
 
@@ -15,6 +18,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // attach api routes and handlers here
+app.get("/", (_, res) => res.send("API active"));
+app.use("/api/auth", authRouter);
 
 app.use(notFound);
 app.use(errorHandler);
