@@ -3,7 +3,7 @@ const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
 const ErrorResponse = require("../utils/errorResponse");
 
-const protected = asyncHandler(async (req,res, next) => {
+const protected = asyncHandler(async (req, res, next) => {
   let token;
 
   const headers = req.headers;
@@ -40,7 +40,7 @@ const protectedSocket = asyncHandler(async (socket, next) => {
 
       // decode token id
       const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-      req.user = await User.findById(decoded.id).select("-password");
+      socket.handshake.user = await User.findById(decoded.id).select("-password");
       next();
     } catch (err) {
       return next(
@@ -56,4 +56,4 @@ const protectedSocket = asyncHandler(async (socket, next) => {
   }
 });
 
-module.exports = { protected, protectedSocket};
+module.exports = { protected, protectedSocket };

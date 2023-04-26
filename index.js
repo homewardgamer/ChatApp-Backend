@@ -44,6 +44,7 @@ const io = new Server(httpServer, {
 const onConnection = (socket) => {
   userControllers(io, socket);
 };
+
 io.use(protectedSocket);
 io.on("connection", onConnection);
 
